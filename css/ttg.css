@@ -19,6 +19,7 @@ body {
 	bottom: 0px;
 	min-width: 100px;
 	overflow: hidden;
+    cursor: pointer;
 }
 
 #middlepanel{
