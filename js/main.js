@@ -5,6 +5,10 @@ Game.Launch = function() {
     Game.cookies = 0;
     Game.cookiesd = 0;
     Game.fps = 60;
+    if (localStorage.getItem("cookies"))
+    {
+        Game.cookies = parseInt(localStorage.getItem("cookies"));
+    }
 }
 
 Game.click = function() {
@@ -18,7 +22,9 @@ Game.Logic = function() {
 
 Game.Draw = function() {
     Game.leftCanvas = document.getElementById("leftCanvas").getContext('2d');
-    Game.leftCanvas.fillRect(0,0,50,50);
+    var img = new Image();
+    img.src = "img/cover.png";
+    Game.leftCanvas.drawImage(img,0,0,leftCanvas.width,leftCanvas.height);
     //Game.leftCanvas.fill();
 }
 
@@ -33,9 +39,24 @@ Game.Loop = function () {
     setTimeout(Game.Loop, 1000/Game.fps);
 }
 
+Game.clearMiddle = function() {
+    var middle = document.getElementById("middlepanel");
+    middle.innerHTML = "Middle";
+}
+
+Game.Save = function() {
+    localStorage.setItem("cookies", Game.cookies);
+    var middle = document.getElementById("middlepanel");
+    middle.innerHTML = "Game Saved";
+
+    setTimeout(Game.Save, 10000);
+    setTimeout(Game.clearMiddle, 1500);
+}
+
 Game.Launch();
 
 window.onload = function() {
     Game.Loop();
+    Game.Save();
     document.getElementById("leftCanvas").addEventListener("click", Game.click, false);
 }
