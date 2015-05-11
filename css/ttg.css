@@ -22,6 +22,10 @@ body {
     cursor: pointer;
 }
 
+#leftcanvas{
+       width: 100%;
+}
+
 #middlepanel{
 	position: absolute;
 	left: 30%;
