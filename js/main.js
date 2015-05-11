@@ -30,9 +30,9 @@ Game.Draw = function() {
 
 Game.Loop = function () {
     var meh = document.getElementById("words");
-	meh.innerHTML = Game.cookiesd;
+	meh.innerHTML = Game.cookiesd + " words";
 var wps = document.getElementById("wordsps");
-wps.innerHTML = Game.cps;
+wps.innerHTML = Game.cps + " words per second";
 
     Game.catchuplogic = 0;
     Game.Logic();
