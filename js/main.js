@@ -1,23 +1,35 @@
 Game = {};
 
 Game.Launch = function() {
-    Game.cps = 0;
-    Game.cookies = 0;
-    Game.cookiesd = 0;
+    Game.wps = 0;
+    Game.words = 0;
+    Game.wordsd = 0;
+    Game.wordsAllTime = 0;
     Game.fps = 60;
     if (localStorage.getItem("cookies"))
     {
-        Game.cookies = parseInt(localStorage.getItem("cookies"));
+        Game.words = parseInt(localStorage.getItem("cookies"));
     }
+    if (localStorage.getItem("words"))
+    {
+        Game.words = parseInt(localStorage.getItem("words"));
+    }
+
 }
 
 Game.click = function() {
-    Game.cookies++;
+    Game.words++;
+    Game.wordsAllTime++;
+}
+
+Game.checkBuildings = function() {
+    
 }
 
 Game.Logic = function() {
     Game.cookies += Game.cps/Game.fps;
     Game.cookiesd = Math.round(Game.cookies);
+    Game.checkBuildings();
 }
 
 Game.Draw = function() {
@@ -31,8 +43,8 @@ Game.Draw = function() {
 Game.Loop = function () {
     var meh = document.getElementById("words");
 	meh.innerHTML = Game.cookiesd + " words";
-var wps = document.getElementById("wordsps");
-wps.innerHTML = Game.cps + " words per second";
+    var wps = document.getElementById("wordsps");
+    wps.innerHTML = Game.cps + " words per second";
 
     Game.catchuplogic = 0;
     Game.Logic();
@@ -47,7 +59,7 @@ Game.clearMiddle = function() {
 }
 
 Game.Save = function() {
-    localStorage.setItem("cookies", Game.cookies);
+    localStorage.setItem("words", Game.words);
     var middle = document.getElementById("middlepanel");
     middle.innerHTML = "Game Saved";
 
