@@ -53,7 +53,7 @@ Game.Draw = function() {
 
 Game.Loop = function () {
     var meh = document.getElementById("words");
-	meh.innerHTML = Game.cookiesd + " words";
+	meh.innerHTML = Game.wordsd + " words";
     var wps = document.getElementById("wordsps");
     wps.innerHTML = Game.wps + " words per second";
 
