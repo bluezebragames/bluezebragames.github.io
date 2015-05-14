@@ -12,7 +12,7 @@ Game.Launch = function() {
     Game.wordsAllTime = 0;
     Game.fps = 60;
 Game.buildings = [];
-Game.buildings.push(new Building(100,0.1));
+Game.buildings.push(new Building(10,0.1));
     if (localStorage.getItem("cookies"))
     {
         Game.words = parseInt(localStorage.getItem("cookies"));
@@ -33,7 +33,7 @@ Game.checkBuildings = function() {
     if(Game.words>Game.buildings[0].price)
 {
 Game.words -= Game.buildings[0].price;
-Game.wps += Game.buildings[0].price;
+Game.wps += Game.buildings[0].wpsgain;
 }
 }
 
