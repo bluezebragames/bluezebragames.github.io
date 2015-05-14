@@ -23,7 +23,7 @@ Game.buildings.push(new Building(10,0.1));
     }
 if (localStorage.getItem("wordsps"))
     {
-        Game.wordsps = parseInt(localStorage.getItem("wordsps"));
+        Game.wps = parseInt(localStorage.getItem("wordsps"));
     }
 }
 
