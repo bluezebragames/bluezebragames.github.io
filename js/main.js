@@ -39,7 +39,7 @@ Game.wps += Game.buildings[0].price;
 
 Game.Logic = function() {
     Game.words += Game.wps/Game.fps;
-    Game.wordsd = Math.round(Game.cookies);
+    Game.wordsd = Math.round(Game.words);
     Game.checkBuildings();
 }
 
