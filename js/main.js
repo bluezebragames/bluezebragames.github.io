@@ -1,4 +1,4 @@
-var Building = new function(a,b){
+var Building = function(a,b){
 this.price=a;
 this.wpsgain=b;
 }
