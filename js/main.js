@@ -33,7 +33,7 @@ Game.click = function() {
 }
 
 Game.checkBuildings = function() {
-    if(Game.words>Game.buildings[0].price)
+    if(Game.words>=Game.buildings[0].price)
 {
 Game.words -= Game.buildings[0].price;
 Game.wps += Game.buildings[0].wpsgain;
