@@ -55,7 +55,7 @@ Game.Loop = function () {
     var meh = document.getElementById("words");
 	meh.innerHTML = Game.wordsd + " words";
     var wps = document.getElementById("wordsps");
-    wps.innerHTML = Game.wps + " words per second";
+    wps.innerHTML = Math.round(10*Game.wps)/10.0 + " words per second";
 
     Game.catchuplogic = 0;
     Game.Logic();
