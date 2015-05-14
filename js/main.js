@@ -1,3 +1,8 @@
+var Building = new function(a,b){
+this.price=a;
+this.wpsgain=b;
+}
+
 Game = {};
 
 Game.Launch = function() {
@@ -6,6 +11,8 @@ Game.Launch = function() {
     Game.wordsd = 0;
     Game.wordsAllTime = 0;
     Game.fps = 60;
+Game.buildings = [];
+Game.buildings.push(new Building(100,0.1));
     if (localStorage.getItem("cookies"))
     {
         Game.words = parseInt(localStorage.getItem("cookies"));
@@ -23,12 +30,16 @@ Game.click = function() {
 }
 
 Game.checkBuildings = function() {
-    
+    if(Game.words>Game.buildings[0].price)
+{
+Game.words -= Game.buildings[0].price;
+Game.wps += Game.buildings[0].price;
+}
 }
 
 Game.Logic = function() {
-    Game.cookies += Game.cps/Game.fps;
-    Game.cookiesd = Math.round(Game.cookies);
+    Game.words += Game.wps/Game.fps;
+    Game.wordsd = Math.round(Game.cookies);
     Game.checkBuildings();
 }
 
@@ -44,7 +55,7 @@ Game.Loop = function () {
     var meh = document.getElementById("words");
 	meh.innerHTML = Game.cookiesd + " words";
     var wps = document.getElementById("wordsps");
-    wps.innerHTML = Game.cps + " words per second";
+    wps.innerHTML = Game.wps + " words per second";
 
     Game.catchuplogic = 0;
     Game.Logic();
