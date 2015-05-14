@@ -21,7 +21,10 @@ Game.buildings.push(new Building(10,0.1));
     {
         Game.words = parseInt(localStorage.getItem("words"));
     }
-
+if (localStorage.getItem("wordsps"))
+    {
+        Game.wordsps = parseInt(localStorage.getItem("wordsps"));
+    }
 }
 
 Game.click = function() {
@@ -71,6 +74,7 @@ Game.clearMiddle = function() {
 
 Game.Save = function() {
     localStorage.setItem("words", Game.words);
+localStorage.setItem("wordsps", Game.wps);
     var middle = document.getElementById("middlepanel");
     middle.innerHTML = "Game Saved";
 
