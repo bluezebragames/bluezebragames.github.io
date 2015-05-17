@@ -1,6 +1,7 @@
-var Building = function(a,b){
+var Building = function(a,b,c){
     this.price=a;
     this.wpsgain=b;
+    this.howMany=0;
 }
 
 Game = {};
@@ -15,18 +16,39 @@ Game.Launch = function() {
     Game.buildings = [];
     Game.buildings.push(new Building(10,0.1));
     Game.buildings.push(new Building(10000,500));
-    if (localStorage.getItem("cookies"))
+    if (localStorage.getItem("game"))
     {
-        Game.words = parseInt(localStorage.getItem("cookies"));
+        Game.loadSave(localStorage.getItem("game"));
     }
-    if (localStorage.getItem("words"))
+}
+
+
+// save the game, maybe?
+Game.Save = function() {
+    str = '';
+    str += Game.wordsd + '|';
+    for(b in Game.buildings)
     {
-        Game.words = parseInt(localStorage.getItem("words"));
+        str += Game.buildings[b].howMany + ',';
     }
-    if (localStorage.getItem("wordsps"))
+    str += '|';
+    localStorage.setItem("game", str);
+    var middle = document.getElementById("middlepanel");
+    middle.innerHTML = "Game Saved";
+
+    setTimeout(Game.Save, 10000);
+    setTimeout(Game.clearMiddle, 1500);
+}
+
+Game.loadSave = function(file) {
+    splitfile = file.split('|');
+    Game.words = parseInt(splitfile[0]);
+    buildingCount = splitfile[1].split(',');
+    for(var i = 0; i<Game.buildings.length; ++i)
     {
-        Game.wps = parseFloat(localStorage.getItem("wordsps"));
+        Game.buildings[i].howMany = buildingCount[i];
     }
+    Game.recalculateWps();
 }
 
 // add things when you click!
@@ -35,12 +57,22 @@ Game.click = function() {
     Game.wordsAllTime++;
 }
 
+// how about this recalculates the wps
+Game.recalculateWps = function() {
+    Game.wps = 0;
+    for(b in Game.buildings)
+    {
+        Game.wps += Game.buildings[b].wpsgain * Game.buildings[b].howMany;
+    }
+}
+
 // buys the building when you can afford it and you click it
 Game.buyBuildings = function(whichBuilding) {
     if(Game.words>=Game.buildings[whichBuilding].price)
     {
-    Game.words -= Game.buildings[whichBuilding].price;
-    Game.wps += Game.buildings[whichBuilding].wpsgain;
+        Game.words -= Game.buildings[whichBuilding].price;
+        Game.buildings[whichBuilding].howMany++;
+        Game.recalculateWps();
     }
 }
 
@@ -65,6 +97,11 @@ Game.Loop = function () {
 	meh.innerHTML = Game.wordsd + " words";
     var wps = document.getElementById("wordsps");
     wps.innerHTML = Math.round(10*Game.wps)/10.0 + " words per second";
+    for(b in Game.buildings)
+    {
+        var currDiv = document.getElementById(b+"stats");
+        currDiv.innerHTML = "You have " + Game.buildings[b].howMany + " of building " + b;
+    }
 
     Game.catchuplogic = 0;
     Game.Logic();
@@ -79,20 +116,8 @@ Game.clearMiddle = function() {
     middle.innerHTML = "Middle";
 }
 
-// save the game, maybe?
-Game.Save = function() {
-    localStorage.setItem("words", Game.words);
-    localStorage.setItem("wordsps", Game.wps);
-    var middle = document.getElementById("middlepanel");
-    middle.innerHTML = "Game Saved";
-
-    setTimeout(Game.Save, 10000);
-    setTimeout(Game.clearMiddle, 1500);
-}
-
-Game.Launch();
-
 window.onload = function() {
+    Game.Launch();
     Game.Loop();
     Game.Save();
     document.getElementById("leftCanvas").addEventListener("click", Game.click, false);
