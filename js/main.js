@@ -14,6 +14,7 @@ Game.Launch = function() {
     Game.fps = 60;
     Game.buildings = [];
     Game.buildings.push(new Building(10,0.1));
+    Game.buildings.push(new Building(10000,500));
     if (localStorage.getItem("cookies"))
     {
         Game.words = parseInt(localStorage.getItem("cookies"));
@@ -34,12 +35,12 @@ Game.click = function() {
     Game.wordsAllTime++;
 }
 
-// autobuys the building when you can afford it
-Game.checkBuildings = function() {
-    if(Game.words>=Game.buildings[0].price)
+// buys the building when you can afford it and you click it
+Game.buyBuildings = function(whichBuilding) {
+    if(Game.words>=Game.buildings[whichBuilding].price)
     {
-    Game.words -= Game.buildings[0].price;
-    Game.wps += Game.buildings[0].wpsgain;
+    Game.words -= Game.buildings[whichBuilding].price;
+    Game.wps += Game.buildings[whichBuilding].wpsgain;
     }
 }
 
@@ -47,7 +48,6 @@ Game.checkBuildings = function() {
 Game.Logic = function() {
     Game.words += Game.wps/Game.fps;
     Game.wordsd = Math.round(Game.words);
-    Game.checkBuildings();
 }
 
 // draw the lone image
@@ -96,4 +96,8 @@ window.onload = function() {
     Game.Loop();
     Game.Save();
     document.getElementById("leftCanvas").addEventListener("click", Game.click, false);
+    for(var i = 0; i < Game.buildings.length; i++)
+    {
+        document.getElementById(i).addEventListener("click", function(i){return function(){Game.buyBuildings(i)};}(i), false);
+    }
 }
